@@ -1,0 +1,23 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  labels: 
+    app: tomcat-deployment-nautilus 
+  name: tomcat-deployment-nautilus 
+  namespace: tomcat-namespace-nautilus 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      app: tomcat-deployment-nautilus 
+  strategy: {} 
+  template: 
+    metadata: 
+      labels: 
+        app: tomcat-deployment-nautilus 
+    spec: 
+      containers: 
+      - image: gcr.io/kodekloud/centos-ssh-enabled:tomcat 
+        name: tomcat-container-nautilus 
+        ports: 
+        - containerPort: 8080

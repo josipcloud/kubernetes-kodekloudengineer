@@ -1,0 +1,17 @@
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  labels: 
+    run: pod-datacenter 
+  name: pod-datacenter 
+spec: 
+  containers: 
+  - image: httpd:latest 
+    name: container-datacenter 
+    volumeMounts: 
+      - mountPath: /var/www/html 
+        name: pvc-datacenter 
+  volumes: 
+    - name: pvc-datacenter 
+      persistentVolumeClaim: 
+        claimName: pvc-datacenter

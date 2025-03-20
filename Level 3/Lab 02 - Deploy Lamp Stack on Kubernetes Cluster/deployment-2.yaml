@@ -1,0 +1,88 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  labels: 
+    app: lamp-wp 
+  name: lamp-wp 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      app: lamp-wp 
+  strategy: {} 
+  template: 
+    metadata: 
+      labels: 
+        app: lamp-wp 
+    spec: 
+      containers: 
+      - image: webdevops/php-apache:alpine-3-php7 
+        name: httpd-php-container 
+        env: 
+        - name: MYSQL_ROOT_PASSWORD 
+          valueFrom: 
+            secretKeyRef: 
+              name: my-secret 
+              key: MYSQL_ROOT_PASSWORD 
+        - name: MYSQL_DATABASE 
+          valueFrom: 
+            secretKeyRef: 
+              name: my-secret 
+              key: MYSQL_DATABASE 
+        - name: MYSQL_USER 
+          valueFrom: 
+            secretKeyRef: 
+              name: my-secret 
+              key: MYSQL_USER 
+        - name: MYSQL_PASSWORD 
+          valueFrom: 
+            secretKeyRef: 
+              name: my-secret 
+              key: MYSQL_PASSWORD 
+        - name: MYSQL_HOST 
+          valueFrom: 
+            secretKeyRef: 
+              name: my-secret 
+              key: MYSQL_HOST 
+        volumeMounts: 
+        - mountPath: /opt/docker/etc/php/php.ini 
+          name: php-config 
+          subPath: php.ini 
+        - mountPath: /app/index.php 
+          subPath: index.php 
+          name: php-index-cm 
+      - image: mysql:5.6 
+        name: mysql-container 
+        env: 
+        - name: MYSQL_ROOT_PASSWORD 
+          valueFrom: 
+            secretKeyRef: 
+              name: my-secret 
+              key: MYSQL_ROOT_PASSWORD 
+        - name: MYSQL_DATABASE 
+          valueFrom: 
+            secretKeyRef: 
+              name: my-secret 
+              key: MYSQL_DATABASE 
+        - name: MYSQL_USER 
+          valueFrom: 
+            secretKeyRef: 
+              name: my-secret 
+              key: MYSQL_USER 
+        - name: MYSQL_PASSWORD 
+          valueFrom: 
+            secretKeyRef: 
+              name: my-secret 
+              key: MYSQL_PASSWORD 
+        - name: MYSQL_HOST 
+          valueFrom: 
+            secretKeyRef: 
+              name: my-secret 
+              key: MYSQL_HOST 
+      volumes: 
+      - configMap: 
+          name: php-config 
+        name: php-config 
+      - configMap: 
+          name: php-index-cm 
+        name: php-index-cm 

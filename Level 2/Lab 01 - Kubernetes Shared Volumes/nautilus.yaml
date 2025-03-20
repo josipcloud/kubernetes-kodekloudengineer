@@ -1,0 +1,28 @@
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  labels: 
+    run: volume-share-nautilus 
+  name: volume-share-nautilus 
+spec: 
+  containers: 
+  - image: fedora:latest 
+    name: volume-container-nautilus-1 
+    command:  
+    - "sleep" 
+    - "2000" 
+    volumeMounts: 
+    - name: volume-share 
+      mountPath: /tmp/blog 
+  - image: fedora:latest 
+    name: volume-container-nautilus-2 
+    command: 
+    - "sleep" 
+    - "2000" 
+    volumeMounts: 
+    - name: volume-share 
+      mountPath: /tmp/demo 
+  volumes: 
+  - name: volume-share 
+    emptyDir: 
+      sizeLimit: 100Mi

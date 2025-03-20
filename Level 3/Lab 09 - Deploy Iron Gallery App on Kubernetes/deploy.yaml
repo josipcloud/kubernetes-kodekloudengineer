@@ -1,0 +1,38 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  creationTimestamp: null 
+  labels: 
+    run: iron-gallery 
+  name: iron-gallery-deployment-xfusion 
+  namespace: iron-namespace-xfusion 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      run: iron-gallery 
+  strategy: {} 
+  template: 
+    metadata: 
+      labels: 
+        run: iron-gallery 
+    spec: 
+      containers: 
+      - image: kodekloud/irongallery:2.0 
+        name: iron-gallery-container-xfusion 
+        resources: 
+          limits: 
+            memory: "100Mi" 
+            cpu: "50m" 
+        volumeMounts: 
+        - mountPath: /usr/share/nginx/html/data 
+          name: config 
+        - mountPath: /usr/share/nginx/html/uploads 
+          name: images 
+      volumes: 
+      - name: config 
+        emptyDir: 
+          sizeLimit: 100Mi 
+      - name: images 
+        emptyDir: 
+          sizeLimit: 100Mi

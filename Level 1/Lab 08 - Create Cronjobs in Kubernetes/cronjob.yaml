@@ -1,0 +1,19 @@
+apiVersion: batch/v1 
+kind: CronJob 
+metadata: 
+  name: nautilus 
+spec: 
+  schedule: "*/5 * * * *" 
+  jobTemplate: 
+    spec: 
+      template: 
+        spec: 
+          containers: 
+          - name: cron-nautilus 
+            image: httpd:latest 
+            imagePullPolicy: IfNotPresent 
+            command: 
+            - /bin/sh 
+            - -c 
+            - echo Welcome to xfusioncorp! 
+          restartPolicy: OnFailure 
